@@ -10,6 +10,8 @@
 
 * Modding support the way V-Slice does it
 
+* V-Slice chart support (with split vocals)
+
 ## Week/Song Porting
 
 * Week 7 port over (with cutscenes, maybe in-game instead of video?)

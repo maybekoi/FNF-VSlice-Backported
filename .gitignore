@@ -1,3 +1,6 @@
 export/
 .vscode/
+# only commented out due to me using the actual api keys <3
 APIStuff.hx
+# fnf v-slice source reference
+/ref
