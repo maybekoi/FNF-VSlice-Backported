@@ -6,8 +6,8 @@ import flixel.graphics.frames.FlxAtlasFrames;
 
 using StringTools;
 
-class Character extends FlxSprite
-{
+class Character extends FlxSprite {
+	public var cameraPosition:Array<Float> = [0, 0];
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	public var debugMode:Bool = false;
 

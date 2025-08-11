@@ -61,7 +61,7 @@ class FreeplayState extends funkin.MusicBeatState
 		if (StoryMenuState.weekUnlocked[3] || isDebug)
 		{
 			songs.push('Pico');
-			songs.push('Philly');
+			songs.push('Philly-Nice');
 			songs.push('Blammed');
 		}
 

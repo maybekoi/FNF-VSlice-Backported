@@ -1031,7 +1031,8 @@ class ChartingState extends funkin.MusicBeatState
 
 	function loadAutosave():Void
 	{
-		PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
+		var autosaveData:Dynamic = Json.parse(FlxG.save.data.autosave);
+		PlayState.SONG = cast autosaveData.song;
 		FlxG.resetState();
 	}
 

@@ -48,6 +48,8 @@ import funkin.play.PauseSubState;
 import funkin.play.GameOverSubstate;
 import funkin.ui.DialogueBox;
 import funkin.data.Song;
+import funkin.data.Event;
+import funkin.data.Event.EventData;
 import funkin.util.CoolUtil;
 import funkin.ui.TitleState;
 import funkin.save.Highscore;
@@ -70,9 +72,9 @@ class PlayState extends funkin.MusicBeatState
 
 	private var vocals:FlxSound;
 
-	private var dad:Character;
-	private var gf:Character;
-	private var boyfriend:Boyfriend;
+	public var dad:Character;
+	public var gf:Character;
+	public var boyfriend:Boyfriend;
 
 	private var notes:FlxTypedGroup<Note>;
 	private var unspawnNotes:Array<Note> = [];
@@ -98,6 +100,16 @@ class PlayState extends funkin.MusicBeatState
 	private var healthBar:FlxBar;
 
 	private var generatedMusic:Bool = false;
+	private var pendingEvents:Array<EventData> = [];
+	@:isVar public var songSpeed(get, set):Float = 1;
+	
+	function get_songSpeed():Float {
+		return songSpeed;
+	}
+	
+	function set_songSpeed(value:Float):Float {
+		return songSpeed = value;
+	}
 	private var startingSong:Bool = false;
 
 	private var iconP1:HealthIcon;
@@ -140,6 +152,9 @@ class PlayState extends funkin.MusicBeatState
 
 	override public function create()
 	{
+		if (SONG.isVSliceFormat && SONG.events != null) {
+			pendingEvents = SONG.events.copy();
+		}
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
@@ -1250,6 +1265,13 @@ class PlayState extends funkin.MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		if (!paused && !startingSong && SONG.isVSliceFormat && pendingEvents.length > 0) {
+			var curTime = Conductor.songPosition;
+			while (pendingEvents.length > 0 && pendingEvents[0].t <= curTime) {
+				var event = pendingEvents.shift();
+				Event.handleEvent(event, this);
+			}
+		}
 		#if !debug
 		perfectMode = false;
 		#end
